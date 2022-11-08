@@ -13,13 +13,19 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="styles.css" rel="stylesheet" />
+        <!-- Bootstrap core JS-->
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script defer src="scripts.js"></script>
+        <!--(Bootstrap)-->
+
         
     </head>
-    <body>
+    <body id="principal">
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#!">**Nombre_restaurante**</a>
+                <a class="navbar-brand" href="#!">Lista de productos</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
@@ -46,7 +52,7 @@
                 </div>
             </div>
         </nav>
-        <!-- Product section
+        <!-- Product section 
         <section class="py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="row gx-4 gx-lg-5 align-items-center">
@@ -69,13 +75,33 @@
                     </div>
                 </div>
             </div>
-        </section>
-    -->
+        </section>  -->
         <!-- Related items section-->
-        <section class="py-5 bg-dark">
+        <section class="py-5 bg-light">
+        <div class="container"> 
+        <div class="col-md-5">
+            <form id="product_form" action="" role="form">
+                <div class="form-group">
+                    <label for="tipo_producto" name="tipo_producto">Tipo de producto:</label>
+                    <input type="text" name="tipo_producto" class="form-control" size="25" id="product_type" placeholder="Ingresa el tipo de producto a añadir">
+                </div>
+                <div class="form-group">
+                    <label for="nombre_producto" name="nombre_producto">Nombre:</label>
+                    <input type="text" name="nombre_producto" class="form-control" id="product_name" placeholder="Ingresa el nombre del producto">
+                </div>
+                <div class="form-group">
+                    <label for="descripción_producto" name="descripción_producto">Descripción del producto:</label>
+                    <input type="text" name="descripción_producto" class="form-control" id="product_description" placeholder="Ingresa la descripción">
+                </div> <br>
+                <div class="text-center"><a class="btn btn-outline-dark mt-auto" onclick="getInfoForm()" type="submit"  href="#"><span><b>+</b></span> Añadir producto</a></div>
+            </form>   
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-5"><img src="" alt=""></div>
+        </div>
             <div class="container px-4 px-lg-5 mt-5">
                 <h2 class="fw-bolder mb-4">Productos</h2>
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <div id="item_menu" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     <div class="col mb-5">
                         <div class="card h-100">
                             <!-- Product image-->
@@ -181,9 +207,5 @@
         <footer class="py-5 bg-dark">
             <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Manuel López Corchado y Adrián Esteban Martín</p></div>
         </footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="scripts.js"></script>
     </body>
 </html>
