@@ -15,6 +15,7 @@ function nuevoProducto(titulo, descripcion,  categoria, ingredientes,) {
     return producto;
 }
 
+
 let productos = [ 
     nuevoProducto('Agua', 'Botella de agua', 'Bebida', ['agua']), 
     nuevoProducto('Arroz', 'Arroz con tomate', 'Plato principal',['arroz', 'tomate'] ),
@@ -103,6 +104,12 @@ function mostrarProducto(indice){
                                 <span class="glyphicon glyphicon-heart"></span>
                                 Añadir a favoritos
                             </button>
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button" onclick="borrarProducto(`+indice+`)">
+                                <span class="glyphicon glyphicon-heart">Borrar</span>
+                            </button>
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button" onclick="volver()">
+                                <span class="glyphicon glyphicon-heart">Volver</span>
+                        </button>                            
                         </div>
                     </div>
                 </div>
@@ -116,23 +123,24 @@ function mostrarTodos(){
     let content = document.getElementById('item_menu');
     let indice=0;
     for (let producto of productos) {
-        content.innerHTML += `<div class="col mb-5">
-        <div class="card h-100">
-            <!-- Product image-->
-            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-            <!-- Product details-->
-            <div class="card-body p-4">
-                <div class="text-center">
-                    <!-- Product name-->
-                    <h5 class="fw-bolder"><a onclick="mostrarProducto(`+indice+`)" href="#">`+producto.titulo+`</a></h5>
+        content.innerHTML += `
+            <div class="col mb-5">
+            <div class="card h-100">
+                <!-- Product image-->
+                <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                <!-- Product details-->
+                <div class="card-body p-4">
+                    <div class="text-center">
+                        <!-- Product name-->
+                        <h5 class="fw-bolder"><a onclick="mostrarProducto(`+indice+`)" href="#">`+producto.titulo+`</a></h5>
+                    </div>
+                </div>
+                <!-- Product actions-->
+                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" onclick="mostrarProducto(`+indice+`)" href="#">Mas info</a></div>
                 </div>
             </div>
-            <!-- Product actions-->
-            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                <div class="text-center"><a class="btn btn-outline-dark mt-auto" onclick="mostrarProducto(`+indice+`)" href="#">Mas info</a></div>
-            </div>
-        </div>
-    </div> `;
+        </div> `;
     indice=indice+1;
     }
 }
@@ -153,8 +161,7 @@ function crearElemento() {
             <label for="descripción_producto" name="descripción_producto">Descripción del producto:</label>
             <input type="text" name="descripción_producto" class="form-control" id="product_description" placeholder="Ingresa la descripción">
         </div> <br>
-        <div class="text-center"><a class="btn btn-outline-dark mt-auto" onclick="getInfoForm()" type="submit"  href="#"><span><b>+</b></span> Añadir producto</a></div>
-        
+        <div class="text-center"><a class="btn btn-outline-dark mt-auto" onclick="guardarProducto()" type="submit"  href="#"><span><b>+</b></span> Añadir producto</a></div>
     </form>   
 </div>`;
 }
@@ -165,6 +172,52 @@ function crearElemento() {
 function borrar(){
     content.innerHTML=`<p>PRUEBA</P> <button onclick="menuPrincipal()"></button>`
 }
+
+function borrarProducto(indice){
+    if (confirm("¿Esta seguro de que quiere borrar el elemento?"))
+    {
+        productos.splice(indice,1);
+        volver();
+    }   
+
+}
+
+function volver(){
+    let content = document.getElementById('principal');
+    content.innerHTML= ` 
+    <section class="py-5 bg-light">
+                <div class="container px-4 px-lg-5 mt-5">
+                    <h2 class="fw-bolder mb-4">Productos</h2>
+                    <div class="row text-center mb-10">
+                        <div class="col-mb-12 ">
+                            <a class="btn btn-outline-dark mt-auto" onclick="crearElemento()" href="#">Añadir Producto</a>
+                        </div>
+                    </div>
+                    <div class="row text-center mb-10">
+                        <div class="col-mb-12 ">&nbsp;</div>
+                    </div>
+                    <div id="item_menu" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    </div>
+                </div>
+            </section>`;
+    mostrarTodos();
+}
+
+function guardarProducto(){
+    // leer los campos del formulario
+    let name = document.getElementById('product_name').value;
+    let category = document.getElementById('product_category').value;
+    let description = document.getElementById('product_description').value;
+    let ingredientes = [];
+    // nuevoProducto
+    let nuevo = nuevoProducto(name,description,category,ingredientes);
+    // add a Productos
+    productos.push(nuevo);
+    volver();
+}
+
+
+
 
 mostrarTodos();
 
