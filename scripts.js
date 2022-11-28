@@ -157,10 +157,11 @@ function mostrarTodos(){
     numProductos(productos);
 }
 
-function crearElemento() {
+function crearElemento(num,indice) {
     let content = document.getElementById('principal');
     content.innerHTML= `        <div class=" quest">
-    <form id="product_form" action="" role="form">
+    <form id="product_form" action="" role="form" onsubmit=elemModif(${num},${indice})>
+    <div id="quiz">
         <div class="form-group">
             <label for="tipo_producto" name="tipo_producto">Categoría de producto:</label>
             <input type="text" name="categoria_producto" class="form-control" size="25" id="product_category" placeholder="Ingresa el tipo de producto a añadir" required>
@@ -181,6 +182,8 @@ function crearElemento() {
         <label for="foto_producto" name="foto_producto">Link de foto del producto <span style="color:lightgrey">(Opcional)</span></label>
         <input type="text" name="foto_producto" class="form-control" id="product_link" placeholder="Ingresa el enlace">
         </div>
+    </div>
+    <button type="button" class="btn btn-outline-dark mt-auto"value="addDescriptor" onclick=addDescriptor()>Añadir elemento</button>
         <br>
         <div class="form-group">
         <label for="valoracion_producto">Valoración de producto</label>
@@ -193,7 +196,10 @@ function crearElemento() {
         </select>
         </div>
         <br>
-        <div class="text-center"><input type="submit" class="btn btn-outline-dark mt-auto"value="+ Añadir producto" onclick=guardarProducto()></div>
+        <div class="text-center">
+        <input type="submit" class="btn btn-outline-dark mt-auto"value="${senderOp(num)}">
+        <button type="button" class="btn btn-outline-dark mt-auto"value="cancelar" onclick=volver()>Cancelar</button>
+        </div>
     </form>   
 </div><br>`;
 }
@@ -251,8 +257,7 @@ function modificarProducto(indice){
     
     
     //delete productos[indice];
-    productos.splice(indice,1);
-    crearElemento();
+    crearElemento(1,indice);
     document.getElementById('product_category').value=category;
     document.getElementById('product_name').value=name;
     document.getElementById('product_description').value=description;
@@ -299,6 +304,27 @@ function pictureLinkBig(link){
     if (link == '')
     link= 'https://dummyimage.com/600x700/dee2e6/6c757d.jpg';
         return link;
+}
+function elemModif(num,indice){
+    if (num===1){
+    productos.splice(indice,1);
+    guardarProducto();
+    }
+    else 
+    guardarProducto();
+}
+function senderOp(num){
+    if (num===1)
+    return 'Confirmar modificación';
+    else
+    return '+ Añadir item';
+}
+function addDescriptor(){
+    let quiz = document.getElementById('quiz')
+quiz.innerHTML +=`<div class="form-group">
+<label for="ingredientes_producto" name="ingredientes_producto">Ingredientes del producto:</label>
+<input type="text" name="ingredientes_producto" class="form-control" id="product_ingredients" placeholder="Ingresa los ingredientes separados por un guión (-)" required>
+</div>`
 }
 mostrarTodos();
 
