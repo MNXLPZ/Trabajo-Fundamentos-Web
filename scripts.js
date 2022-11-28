@@ -1,4 +1,4 @@
-function nuevoProducto(titulo, descripcion,  categoria, ingredientes,) {
+function nuevoProducto(titulo, descripcion,  categoria, ingredientes, valoracion, enlace) {
 
     let producto = {
 
@@ -6,9 +6,11 @@ function nuevoProducto(titulo, descripcion,  categoria, ingredientes,) {
         descripcion: descripcion,
         categoria: categoria,
         ingredientes: ingredientes,
+        valoracion: valoracion,
+        enlace:enlace,
 
         toString: function(){
-            return 'titulo:'+this.titulo+' descripcion:'+this.descripcion+' categoria:'+this.categoria;
+            return 'titulo:'+this.titulo+' descripcion:'+this.descripcion+' categoria:'+this.categoria+' valoracion:'+this.valoracion+' enlace:'+ this.enlace;
         }
     }
 
@@ -17,10 +19,11 @@ function nuevoProducto(titulo, descripcion,  categoria, ingredientes,) {
 
 
 let productos = [ 
-    nuevoProducto('Agua', 'Botella de agua', 'Bebida', ['agua']), 
-    nuevoProducto('Arroz', 'Arroz con tomate', 'Plato principal',['arroz', 'tomate'] ),
-    nuevoProducto('Natillas', 'Natillas de vainilla', 'Postre', ['leche', 'azucar', 'vainilla']),
-    nuevoProducto('Espaguetis', 'Espaguetis con tomate', 'Plato Principal',['espaguetis', 'tomate'] )
+    nuevoProducto('Agua', 'Botella de agua', 'Bebida', ['Hidrógeno','hidrógeno','oxígeno'], '5', 'https://www.pizzeriadolomiti.es/wp-content/uploads/2016/09/45.jpg'), 
+    nuevoProducto('Arroz', 'Plato de arroz a la cubana', 'Plato principal',['Arroz', 'tomate', 'platano macho frito', 'huevo frito'], '4','https://i.blogs.es/6e72b1/arroz-a-la-cubana-portada/650_1200.jpg'),
+    nuevoProducto('Natillas', 'Natillas de vainilla', 'Postre', ['Leche', 'azúcar', 'vainilla', 'canela en rama', 'ralladura de limón', 'yema de huevo'], '4', 'https://t2.rg.ltmcdn.com/es/posts/8/6/7/natillas_caseras_47768_orig.jpg'),
+    nuevoProducto('Spaghettis', 'Spaghettis con tomate', 'Plato Principal',['Espaguetis', 'tomate','orégano', 'albahaca'], '3', 'https://assets.unileversolutions.com/recipes-v2/236933.jpg' ),
+    nuevoProducto('MESSI', 'Messi te quiero', 'Dios todopoderoso',['Es Messi bro que más quieres'], '5', 'https://fcb-abj-pre.s3.amazonaws.com/img/jugadors/MESSI.jpg' )
 ];
    
  
@@ -89,26 +92,23 @@ function mostrarProducto(indice){
         <section class="py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="row gx-4 gx-lg-5 align-items-center">
-                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /></div>
+                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" sty src="${pictureLinkBig(productos[indice].enlace)}"   alt="..." /></div>
                     <div class="col-md-6">
-                        <div class="small mb-1">SKU: BST-498</div>
                         <h1 class="display-5 fw-bolder">`+productos[indice].titulo+`</h1>
                         <div class="fs-5 mb-5">
-                            <span class="text-decoration-line-through">`+productos[indice].descripcion+`</span>
-                            <span>$40.00</span>
+                            <p>`+productos[indice].descripcion+`</p>
+                        <p style="text-aling:left;">${valProducto(productos[indice].valoracion)}</p>
+                        <p class="lead">${productos[indice].ingredientes.join(", ")}.</p>
                         </div>
-                        <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis delectus ipsam minima ea iste laborum vero?</p>
                         <div class="d-flex">
-                             <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" /> 
-                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                                <span class="glyphicon glyphicon-heart"></span>
-                                Añadir a favoritos
+                            <button class="btn btn-outline-dark flex-shrink-0 me-3" onclick ="modificarProducto(${indice})"type="button">
+                                Modificar
                             </button>
-                            <button class="btn btn-outline-dark flex-shrink-0" type="button" onclick="borrarProducto(`+indice+`)">
-                                <span class="glyphicon glyphicon-heart">Borrar</span>
+                            <button class="btn btn-outline-dark flex-shrink-0 me-3" type="button" onclick="borrarProducto(`+indice+`)">
+                                Borrar
                             </button>
-                            <button class="btn btn-outline-dark flex-shrink-0" type="button" onclick="volver()">
-                                <span class="glyphicon glyphicon-heart">Volver</span>
+                            <button class="btn btn-outline-dark flex-shrink-0 me-3" type="button" onclick="volver()">
+                                Volver
                         </button>                            
                         </div>
                     </div>
@@ -122,17 +122,25 @@ function mostrarProducto(indice){
 function mostrarTodos(){
     let content = document.getElementById('item_menu');
     let indice=0;
+    let stars='';
+    if (productos.length !== 0) { 
     for (let producto of productos) {
         content.innerHTML += `
             <div class="col mb-5">
             <div class="card h-100">
                 <!-- Product image-->
-                <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                <img class="card-img-top" src="${pictureLinkSmall(producto.enlace)}" alt="..." />
                 <!-- Product details-->
                 <div class="card-body p-4">
                     <div class="text-center">
                         <!-- Product name-->
-                        <h5 class="fw-bolder"><a onclick="mostrarProducto(`+indice+`)" href="#">`+producto.titulo+`</a></h5>
+                        <h5 class="fw-bolder"><span>`+producto.titulo+`</span></h5>
+                        <b>${producto.categoria}</b> <br>
+                        ${producto.descripcion}
+                        <div class="pru">
+                        ${valProducto(producto.valoracion)}
+                        </div>
+                        
                     </div>
                 </div>
                 <!-- Product actions-->
@@ -143,35 +151,56 @@ function mostrarTodos(){
         </div> `;
     indice=indice+1;
     }
+    }
+    else 
+        content.innerHTML = `<b style="color:red;">NO HAY ELEMENTOS<b>`;
+    numProductos(productos);
 }
 
 function crearElemento() {
     let content = document.getElementById('principal');
-    content.innerHTML= `        <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 ">
+    content.innerHTML= `        <div class=" quest">
     <form id="product_form" action="" role="form">
         <div class="form-group">
             <label for="tipo_producto" name="tipo_producto">Categoría de producto:</label>
-            <input type="text" name="categoria_producto" class="form-control" size="25" id="product_category" placeholder="Ingresa el tipo de producto a añadir">
+            <input type="text" name="categoria_producto" class="form-control" size="25" id="product_category" placeholder="Ingresa el tipo de producto a añadir" required>
         </div>
         <div class="form-group">
             <label for="nombre_producto" name="nombre_producto">Nombre:</label>
-            <input type="text" name="nombre_producto" class="form-control" id="product_name" placeholder="Ingresa el nombre del producto">
+            <input type="text" name="nombre_producto" class="form-control" id="product_name" placeholder="Ingresa el nombre del producto" required>
         </div>
         <div class="form-group">
             <label for="descripción_producto" name="descripción_producto">Descripción del producto:</label>
-            <input type="text" name="descripción_producto" class="form-control" id="product_description" placeholder="Ingresa la descripción">
-        </div> <br>
-        <div class="text-center"><a class="btn btn-outline-dark mt-auto" onclick="guardarProducto()" type="submit"  href="#"><span><b>+</b></span> Añadir producto</a></div>
+            <input type="text" name="descripción_producto" class="form-control" id="product_description" placeholder="Ingresa la descripción" required>
+        </div> 
+        <div class="form-group">
+            <label for="ingredientes_producto" name="ingredientes_producto">Ingredientes del producto:</label>
+            <input type="text" name="ingredientes_producto" class="form-control" id="product_ingredients" placeholder="Ingresa los ingredientes separados por un guión (-)" required>
+        </div>
+        <div class="form-group">
+        <label for="foto_producto" name="foto_producto">Link de foto del producto <span style="color:lightgrey">(Opcional)</span></label>
+        <input type="text" name="foto_producto" class="form-control" id="product_link" placeholder="Ingresa el enlace">
+        </div>
+        <br>
+        <div class="form-group">
+        <label for="valoracion_producto">Valoración de producto</label>
+        <select name="valoracion_producto" id="product_valoration">
+            <option value="1">1 estrella</option>
+            <option value="2">2 estrellas</option>
+            <option value="3">3 estrellas</option>
+            <option value="4">4 estrellas</option>
+            <option value="5">5 estrellas</option>
+        </select>
+        </div>
+        <br>
+        <div class="text-center"><input type="submit" class="btn btn-outline-dark mt-auto"value="+ Añadir producto" onclick=guardarProducto()></div>
     </form>   
-</div>`;
+</div><br>`;
 }
 
 
 
 
-function borrar(){
-    content.innerHTML=`<p>PRUEBA</P> <button onclick="menuPrincipal()"></button>`
-}
 
 function borrarProducto(indice){
     if (confirm("¿Esta seguro de que quiere borrar el elemento?"))
@@ -189,11 +218,6 @@ function volver(){
                 <div class="container px-4 px-lg-5 mt-5">
                     <h2 class="fw-bolder mb-4">Productos</h2>
                     <div class="row text-center mb-10">
-                        <div class="col-mb-12 ">
-                            <a class="btn btn-outline-dark mt-auto" onclick="crearElemento()" href="#">Añadir Producto</a>
-                        </div>
-                    </div>
-                    <div class="row text-center mb-10">
                         <div class="col-mb-12 ">&nbsp;</div>
                     </div>
                     <div id="item_menu" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -208,17 +232,74 @@ function guardarProducto(){
     let name = document.getElementById('product_name').value;
     let category = document.getElementById('product_category').value;
     let description = document.getElementById('product_description').value;
-    let ingredientes = [];
+    let ingredients = document.getElementById('product_ingredients').value;
+    let valoration = document.getElementById('product_valoration').value;
+    let image = document.getElementById('product_link').value;
     // nuevoProducto
-    let nuevo = nuevoProducto(name,description,category,ingredientes);
+    let nuevo = nuevoProducto(name,description,category,ingredients.split('-'),valoration,image);
     // add a Productos
     productos.push(nuevo);
     volver();
 }
+function modificarProducto(indice){
+    let name = productos[indice].titulo;
+    let category = productos[indice].categoria;
+    let description = productos[indice].descripcion;
+    let ingredients = productos[indice].ingredientes.join('-');
+    let valoration = productos[indice].valoracion;
+    let image = productos[indice].enlace;
+    
+    
+    //delete productos[indice];
+    productos.splice(indice,1);
+    crearElemento();
+    document.getElementById('product_category').value=category;
+    document.getElementById('product_name').value=name;
+    document.getElementById('product_description').value=description;
+    document.getElementById('product_ingredients').value=ingredients;
+    document.getElementById('product_valoration').value=valoration;
+    document.getElementById('product_link').value=image;
+}
+function numProductos(productos) {
+    let product_counter= document.getElementById('product_counter')
+    product_counter.innerHTML=productos.length;
+}
+function valProducto(number) {
+    switch (number) {
+        case '1':{
+          stars= '<div class="d-flex justify-content-left small text-warning mb-2"><div class="bi-star-fill"></div></div>';
+          break
+         }
+         case '2':{
+          stars= '<div class="d-flex justify-content-left small text-warning mb-2"><div class="bi-star-fill"></div><div class="bi-star-fill"></div></div>';
+          break
+         }
+         case '3':{
+          stars= '<div class="d-flex justify-content-left small text-warning mb-2"><div class="bi-star-fill"></div><div class="bi-star-fill"></div><div class="bi-star-fill"></div></div>';
+          break
+         }
+         case '4':{
+          stars= '<div class="d-flex justify-content-left small text-warning mb-2"><div class="bi-star-fill"></div><div class="bi-star-fill"></div><div class="bi-star-fill"></div><div class="bi-star-fill"></div></div>';
+          break
+         }
+         case '5':{ 
+          stars= '<div class="d-flex justify-content-left small text-warning mb-2"><div class="bi-star-fill"></div><div class="bi-star-fill"></div><div class="bi-star-fill"></div><div class="bi-star-fill"></div><div class="bi-star-fill"></div></div>';
+          break
+         }
+     }
+     return stars;
+}
 
-
-
-
+function pictureLinkSmall(link){
+    if (link == '')
+    link= 'https://dummyimage.com/450x300/dee2e6/6c757d.jpg';
+        return link;
+}
+function pictureLinkBig(link){
+    if (link == '')
+    link= 'https://dummyimage.com/600x700/dee2e6/6c757d.jpg';
+        return link;
+}
 mostrarTodos();
 
 //item_menu

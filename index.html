@@ -29,24 +29,13 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">Sobre Nosotros</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Carta</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">Recomendados</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">Platos principales</a></li>
-                                <li><a class="dropdown-item" href="#!">Bebidas</a></li>
-                                <li><a class="dropdown-item" href="#!">Postres</a></li>
-                            </ul>
-                        </li>
+                        <li class="nav-item"><a class="nav-link" aria-current="page" href="#!" onclick=volver()>Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#!" onclick=crearElemento()>Añadir producto</a></li>
                     </ul>
                     <form class="d-flex">
-                        <button class="btn btn-outline-dark" type="submit">
-                            <i class="bi-star-fill me-1"></i>
-                            Favoritos
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                        <button class="btn btn-outline-primary">
+                            Número de productos
+                            <span class="badge bg-dark text-white ms-1 rounded-pill" id="product_counter"></span>
                         </button>
                     </form>
                 </div>
@@ -82,11 +71,6 @@
                 <div class="container px-4 px-lg-5 mt-5">
                     <h2 class="fw-bolder mb-4">Productos</h2>
                     <div class="row text-center mb-10">
-                        <div class="col-mb-12 ">
-                            <a class="btn btn-outline-dark mt-auto" onclick="crearElemento()" href="#">Añadir Producto</a>
-                        </div>
-                    </div>
-                    <div class="row text-center mb-10">
                         <div class="col-mb-12 ">&nbsp;</div>
                     </div>
                     <div id="item_menu" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -97,7 +81,7 @@
         </div>
         <!-- Footer-->
         <footer class="py-5 bg-dark">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Manuel López Corchado y Adrián Esteban Martín</p></div>
+            <div class="container"><p class="m-0 text-center text-white">Creado por Manuel López Corchado y Adrián Esteban Martín</p></div>
         </footer>
     </div>
     </body>
