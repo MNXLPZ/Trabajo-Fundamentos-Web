@@ -9,6 +9,7 @@ function nuevoProducto(titulo, descripcion,  categoria, ingredientes, valoracion
         valoracion: valoracion,
         enlace:enlace,
 
+
         toString: function(){
             return 'titulo:'+this.titulo+' descripcion:'+this.descripcion+' categoria:'+this.categoria+' valoracion:'+this.valoracion+' enlace:'+ this.enlace;
         }
@@ -23,7 +24,6 @@ let productos = [
     nuevoProducto('Arroz', 'Plato de arroz a la cubana', 'Plato principal',['Arroz', 'tomate', 'platano macho frito', 'huevo frito'], '4','https://i.blogs.es/6e72b1/arroz-a-la-cubana-portada/650_1200.jpg'),
     nuevoProducto('Natillas', 'Natillas de vainilla', 'Postre', ['Leche', 'azúcar', 'vainilla', 'canela en rama', 'ralladura de limón', 'yema de huevo'], '4', 'https://t2.rg.ltmcdn.com/es/posts/8/6/7/natillas_caseras_47768_orig.jpg'),
     nuevoProducto('Spaghettis', 'Spaghettis con tomate', 'Plato Principal',['Espaguetis', 'tomate','orégano', 'albahaca'], '3', 'https://assets.unileversolutions.com/recipes-v2/236933.jpg' ),
-    nuevoProducto('MESSI', 'Messi te quiero', 'Dios todopoderoso',['Es Messi bro que más quieres'], '5', 'https://fcb-abj-pre.s3.amazonaws.com/img/jugadors/MESSI.jpg' )
 ];
    
  
@@ -88,6 +88,8 @@ Valoration(number)
 function mostrarProducto(indice){
    let content = document.getElementById('principal');
  //   let producto = productos [id]
+
+
  content.innerHTML= ` 
         <section class="py-5">
             <div class="container px-4 px-lg-5 my-5">
@@ -97,10 +99,12 @@ function mostrarProducto(indice){
                         <h1 class="display-5 fw-bolder">`+productos[indice].titulo+`</h1>
                         <div class="fs-5 mb-5">
                             <p>`+productos[indice].descripcion+`</p>
-                        <p style="text-aling:left;">${valProducto(productos[indice].valoracion)}</p>
-                        <p class="lead">${productos[indice].ingredientes.join(", ")}.</p>
+                        <p style="text-aling:left;">${valProducto(productos[indice].valoracion)}</p> 
+                        ${pintarIngredientes(indice)}
+                        <input type="text" name="new_ingredient" class="form-control" size="25" id="new_ingredient" placeholder="Ingresa el tipo de producto a añadir">
+                        <button type="button" class="btn btn-outline-dark mt-auto"value="addIngredient" onclick=addIngredient(`+indice+`)>Añadir elemento</button>
                         </div>
-                        <div class="d-flex">
+                         <div class="d-flex">
                             <button class="btn btn-outline-dark flex-shrink-0 me-3" onclick ="modificarProducto(${indice})"type="button">
                                 Modificar
                             </button>
@@ -119,6 +123,28 @@ function mostrarProducto(indice){
     
 }
 
+
+function pintarIngredientes(indice){
+    let mostrarIngrediente = '';
+
+    for (let i = 0; i < productos[indice].ingredientes.length; i++) {
+        mostrarIngrediente += ` <p class="lead">`+productos[indice].ingredientes[i] +`
+        <button class="btn btn-outline-dark flex-shrink-0 me-3" type="button" onclick="borrarIngrediente(`+i+`,`+indice+`)">
+                                Borrar ingrediente
+                            </button></p>`;
+    }
+    return mostrarIngrediente;
+
+}
+
+
+function borrarIngrediente(posicion, indice){
+    if (confirm("¿Esta seguro de que quiere borrar el ingrediente?"))
+    {
+        productos[indice].ingredientes.splice(posicion,1);
+        mostrarProducto(indice);
+    } 
+}
 function mostrarTodos(){
     let content = document.getElementById('item_menu');
     let indice=0;
@@ -183,7 +209,6 @@ function crearElemento(num,indice) {
         <input type="text" name="foto_producto" class="form-control" id="product_link" placeholder="Ingresa el enlace">
         </div>
     </div>
-    <button type="button" class="btn btn-outline-dark mt-auto"value="addDescriptor" onclick=addDescriptor()>Añadir elemento</button>
         <br>
         <div class="form-group">
         <label for="valoracion_producto">Valoración de producto</label>
@@ -254,6 +279,7 @@ function modificarProducto(indice){
     let ingredients = productos[indice].ingredientes.join('-');
     let valoration = productos[indice].valoracion;
     let image = productos[indice].enlace;
+
     
     
     //delete productos[indice];
@@ -264,6 +290,8 @@ function modificarProducto(indice){
     document.getElementById('product_ingredients').value=ingredients;
     document.getElementById('product_valoration').value=valoration;
     document.getElementById('product_link').value=image;
+
+    
 }
 function numProductos(productos) {
     let product_counter= document.getElementById('product_counter')
@@ -319,12 +347,10 @@ function senderOp(num){
     else
     return '+ Añadir item';
 }
-function addDescriptor(){
-    let quiz = document.getElementById('quiz')
-quiz.innerHTML +=`<div class="form-group">
-<label for="ingredientes_producto" name="ingredientes_producto">Ingredientes del producto:</label>
-<input type="text" name="ingredientes_producto" class="form-control" id="product_ingredients" placeholder="Ingresa los ingredientes separados por un guión (-)" required>
-</div>`
+function addIngredient(indice){
+    let quiz = document.getElementById('new_ingredient').value;
+    productos[indice].ingredientes.push(quiz);
+    mostrarProducto(indice);
 }
 mostrarTodos();
 
